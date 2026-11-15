@@ -1,7 +1,9 @@
 import type { Screen } from 'e2e';
-import { expect } from 'e2e';
 
-/** Adds COMP SCI 2103 from the mock course API through the search form. */
+/**
+ * Adds COMP SCI 2103 from the mock course API through the search form, and
+ * waits until the course shows as enrolled.
+ */
 export async function addAlgorithmsCourse(screen: Screen): Promise<void> {
 	await screen.getByRole('combobox', 'Choose a subject area').fill('COMP SCI');
 	await screen.getByRole('option', 'COMP SCI - Computer Science').tap();
@@ -10,7 +12,7 @@ export async function addAlgorithmsCourse(screen: Screen): Promise<void> {
 		.getByRole('option', '2103 - Algorithm Design & Data Structures')
 		.tap();
 	await screen.getByRole('button', 'Add').tap();
-	await expect(screen.getByRole('button', '2103 Remove course')).toBeVisible();
+	await screen.getByRole('button', '2103 Remove course').waitFor();
 }
 
 /**

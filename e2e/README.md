@@ -11,7 +11,9 @@ The suite runs against the app's own mock course API, so it needs no backend and
   - remove an enrolled course
   - list the class numbers to enrol in, in the "Ready for Enrolment" dialog
   - drag a workshop to another time, then check the new class number
-- `tests/agentic.e2e.ts`: the same flows driven by the agent from plain-English goals, each one followed by a locator check.
+- `tests/agentic.e2e.ts`: the agent adds a course by its title and finds the class numbers to enrol in, from plain-English goals.
+  A locator check follows each agent step.
+  The drag stays in the locator test: its drop zones exist only while the pointer is held down, so the agent cannot see them before it drags.
 
 ### Patterns worth copying
 
@@ -27,15 +29,13 @@ The suite runs against the app's own mock course API, so it needs no backend and
 ## Run
 
 Use Node 22.22.3+, 24.8+, or 26+, and pnpm for the app.
-From the repository root, install the app once:
+The suite is on the `e2e-example` branch of this fork:
 
 ```bash
+git clone --branch e2e-example https://github.com/samanyudas/mytimetable.git
+cd mytimetable
 pnpm install
-```
-
-Then from this folder:
-
-```bash
+cd e2e
 npm install
 npm test
 ```

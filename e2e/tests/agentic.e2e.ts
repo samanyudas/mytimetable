@@ -1,7 +1,7 @@
 import { beforeEach, describe, test } from '@e2e-dev/web';
 import { expect } from 'e2e';
 
-import { skipWelcome } from './timetable.ts';
+import { addAlgorithmsCourse, skipWelcome } from './timetable.ts';
 
 // Agent steps call the model in e2e.config.ts. Without a key these tests are skipped.
 const skip = process.env.AI_GATEWAY_API_KEY
@@ -28,22 +28,18 @@ describe('timetable with the agent', { skip }, () => {
 		);
 	});
 
-	test('the agent drags a workshop to an earlier time', async ({
+	test('the agent finds the class numbers to enrol in', async ({
 		agent,
 		screen,
 	}) => {
-		await agent.act('add the course {title} to the timetable', {
-			params: { title: 'Algorithm Design & Data Structures' },
-		});
-		await screen.getByRole('button', '2103 Remove course').waitFor();
+		await addAlgorithmsCourse(screen);
 
-		await agent.act(
-			'find the week with the first workshop, then drag that workshop to the 16:00 class in Hughes 323',
+		await agent.act('show the class numbers I need to enrol in');
+
+		const enrolment = screen.getByRole('dialog', 'Ready for Enrolment');
+		await expect(enrolment.getByText('21109')).toBeVisible();
+		await agent.assert(
+			'the screen lists a class number for the lecture, the practical, and the workshop',
 		);
-
-		await screen.getByRole('button', 'Ready for Enrolment').tap();
-		await expect(
-			screen.getByRole('dialog', 'Ready for Enrolment').getByText('25035'),
-		).toBeVisible();
 	});
 });
