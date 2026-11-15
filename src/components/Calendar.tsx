@@ -95,6 +95,7 @@ const CalendarHeader = ({
 								<span tabIndex={0} className="inline-flex outline-none">
 									<Button
 										isIconOnly
+										aria-label={a.description}
 										variant="secondary"
 										onPress={a.action}
 										isDisabled={a.disabled}
@@ -106,6 +107,7 @@ const CalendarHeader = ({
 							) : (
 								<Button
 									isIconOnly
+									aria-label={a.description}
 									variant="secondary"
 									onPress={a.action}
 									isDisabled={a.disabled}
